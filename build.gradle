@@ -35,6 +35,9 @@ dependencies {
     
     // Freemarker
     implementation 'org.freemarker:freemarker:2.3.14'
+    
+    // GSon
+    implementation 'com.google.code.gson:gson:2.8.6'
 }
 
 application {

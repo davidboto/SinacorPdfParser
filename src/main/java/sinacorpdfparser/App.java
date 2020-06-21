@@ -3,36 +3,25 @@
  */
 package sinacorpdfparser;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
 
-import freemarker.template.Configuration;
-import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import freemarker.template.TemplateExceptionHandler;
-
 
 public class App {
 
 	private static Cliente cliente;
 	
-    public static void main(String[] args) throws IOException, TemplateException {
+    public static void main(String[] args) throws IOException, TemplateException, IllegalArgumentException, IllegalAccessException  {
 
 		if(args.length == 1) {
 			cliente = new Cliente(args[0].toString());
 		} else if (args.length == 2) {
 			cliente = new Cliente(args[0].toString(), args[1].toString());
 		} else {
-			System.err.println("Número inválido de parâmetros.");
-			System.out.println("Exemplos de uso: ");
-			System.out.println("1: java -jar parser.jar <caminho_do_arquivo.pdf>");
-			System.out.println("2: java -jar parser.jar <caminho_do_arquivo.pdf> <senha_do_pdf>");
+			System.err.println(" Número inválido de parâmetros.");
+			System.out.println(" Exemplos de uso: ");
+			System.out.println("  1: java -jar parser.jar <caminho_do_arquivo.pdf>");
+			System.out.println("  2: java -jar parser.jar <caminho_do_arquivo.pdf> <senha_do_pdf>");
 			System.exit(-1);
 		}
 		System.out.println(cliente.executar());

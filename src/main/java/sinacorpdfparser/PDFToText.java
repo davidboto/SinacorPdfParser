@@ -14,11 +14,6 @@ public class PDFToText {
 	
 	public PDFToText() {}
 	
-	public PDFToText(String filePath) throws IOException {
-		input = new File(filePath);
-		document = PDDocument.load(input);
-	}
-	
 	public PDFToText(String filePath, String password) throws IOException {
 		input = new File(filePath); 
 		document = PDDocument.load(input, password);

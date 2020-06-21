@@ -68,5 +68,6 @@ local.properties
 # JDT-specific (Eclipse Java Development Tools)     
 .classpath
 
-# Remove .report.html.
-report.html
+# Store output data generated
+
+

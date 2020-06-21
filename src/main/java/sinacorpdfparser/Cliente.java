@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
-import java.sql.Date;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,6 +33,8 @@ public class Cliente {
 	
 	private String senha;
 	
+	private final static String OUTPUT_FOLDER = "output";
+	
 	static { 
 		cfg = new Configuration();
     	cfg.setClassForTemplateLoading(App.class, "/");
@@ -52,7 +53,7 @@ public class Cliente {
 	}
 	
 	private ArrayList<NotaNegociacao> getNotasNegociacao() throws IOException {
-		pdf2Text = new PDFToText(caminho);
+		pdf2Text = new PDFToText(caminho, senha);
 		parser = new Parser(pdf2Text.getText()).extract();
 		notasNegociacao = parser.getNotas();	
 		return notasNegociacao;
@@ -66,13 +67,12 @@ public class Cliente {
         input.put("sum", acumulado);
         input.put("diahora", Instant.now());
         
-        Writer fileWriter = new FileWriter(new File("report.html"));
+        Writer fileWriter = new FileWriter(new File(OUTPUT_FOLDER + "/relatorio-" + Instant.now().getEpochSecond() + ".html"));
         try {
             template.process(input, fileWriter);
         } finally {
             fileWriter.close();
         }
-        
 	}
 	
 	private void getAcumulado() {
@@ -80,18 +80,20 @@ public class Cliente {
 		acumulado[0] = notasNegociacao.get(0).getTotalLiquidoDaNota();
 		for(int i = 1; i < notasNegociacao.size(); i++)
 			acumulado[i] = acumulado[i-1] + (notasNegociacao.get(i)).getTotalLiquidoDaNota();
-		
+	}
+	
+	private void exportarJson() throws IllegalArgumentException, IllegalAccessException, IOException{
+		Writer fileWriter = new FileWriter(new File(OUTPUT_FOLDER + "/notasNegociacao-" + Instant.now().getEpochSecond() + ".json"));
+		fileWriter.append(new Exporter().toCSV(notasNegociacao));
+		fileWriter.close();
 	}
 
-    public String executar() throws IOException, TemplateException {
+    public String executar() throws IOException, TemplateException, IllegalArgumentException, IllegalAccessException {
     	getNotasNegociacao();
     	getAcumulado();
     	gerarRelatorio();
-    	StringBuilder resultado = new StringBuilder(NotaNegociacao.getHeader() + "\n");
-		for(NotaNegociacao nota : notasNegociacao) {
-			resultado.append(nota.toCSV() + "\n");
-		}
-		return resultado.toString();
+    	exportarJson();
+    	return new Exporter().toCSV(notasNegociacao);
     }
 	
 }
