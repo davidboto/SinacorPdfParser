@@ -19,14 +19,15 @@ import freemarker.template.TemplateExceptionHandler;
 
 
 public class App {
- 
+
+	private static Cliente cliente;
+	
     public static void main(String[] args) throws IOException, TemplateException {
-		PDFToText pdf2Text = new PDFToText();
-		
+
 		if(args.length == 1) {
-			pdf2Text = new PDFToText(args[0].toString());
+			cliente = new Cliente(args[0].toString());
 		} else if (args.length == 2) {
-			pdf2Text = new PDFToText(args[0].toString(), args[1].toString());
+			cliente = new Cliente(args[0].toString(), args[1].toString());
 		} else {
 			System.err.println("Número inválido de parâmetros.");
 			System.out.println("Exemplos de uso: ");
@@ -34,43 +35,7 @@ public class App {
 			System.out.println("2: java -jar parser.jar <caminho_do_arquivo.pdf> <senha_do_pdf>");
 			System.exit(-1);
 		}
-		
-		Parser parser = new Parser(pdf2Text.getText()).extract();
-		ArrayList<NotaNegociacao> notasNegociacao = parser.getNotas();
-		
-		Double [] sum = new Double[notasNegociacao.size()]; 
-		sum[0] = notasNegociacao.get(0).getTotalLiquidoDaNota();
-		for(int i = 1; i < notasNegociacao.size(); i++)
-			sum[i] = sum[i-1] + (notasNegociacao.get(i)).getTotalLiquidoDaNota();
-		
-		System.out.println(NotaNegociacao.getHeader());
-		for(NotaNegociacao nota : notasNegociacao) {
-			System.out.println(nota.toCSV());
-		}
-		
-		// # Based on: https://www.vogella.com/tutorials/FreeMarker/article.html
-        Configuration cfg = new Configuration();
+		System.out.println(cliente.executar());
 
-        // Where do we load the templates from:
-        cfg.setClassForTemplateLoading(App.class, "/");
-
-        // Some other recommended settings:
-        cfg.setDefaultEncoding("UTF-8");
-        cfg.setLocale(Locale.US);
-        cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
-        
-        Template template = cfg.getTemplate("report.ftl");
-        
-        Map<String, Object> input = new HashMap<String, Object>();
-        input.put("notas", notasNegociacao);
-        input.put("sum", sum);
-        
-        Writer fileWriter = new FileWriter(new File("report.html"));
-        try {
-            template.process(input, fileWriter);
-        } finally {
-            fileWriter.close();
-        }
-        
     }
 }

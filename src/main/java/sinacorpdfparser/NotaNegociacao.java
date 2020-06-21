@@ -218,8 +218,10 @@ public class NotaNegociacao {
 	public static String getHeader() {
 		StringBuilder headerLine = new StringBuilder();
 		Field[] fields = NotaNegociacao.class.getDeclaredFields();
+		String prefix = "";
 		for (Field f : fields) {
-			headerLine.append(f.getName() + ";");
+			headerLine.append(prefix + f.getName());
+			prefix = ";";
 		}
 		return headerLine.toString();
 	}

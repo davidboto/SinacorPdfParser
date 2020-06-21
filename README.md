@@ -30,3 +30,4 @@ java -jar build/libs/SinacorPDFParser-all.jar <caminho_pdf> <senha>
 - [ ] plotar grafico com so resultados
 - [ ] operações como sum(), avg(), cumulative_sum()
 - [ ] permitir que mais de um arquivo seja lido por vez (e.g., informando caminho para diretório ao invés de somente um único arquivo)
+- [ ] exibir demais campos da nota de negociação no relatório geral.

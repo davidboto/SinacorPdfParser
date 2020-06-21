@@ -3,13 +3,21 @@
 <head>
 	<title></title>
 	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+	<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+	<style>
+		body {
+	    	font: normal 10px Verdana, Arial, sans-serif;
+		}
+	</style> 
 </head>
-
+	
 	<body>
-		<h1> Operações (Day Trade) </h1>
-		
-		<div style="width:75%;">
+		<h2 style="text-align: center" > Relatório Geral </h1>
+		<div style="width:75%; margin:auto;">
 	      <canvas id="myChart"></canvas>
+	      <div style="text-align:right; margin-top:10px">
+	      	Relatório gerado em ${diahora}
+	      </div>
 	    </div>
 	</body>
 	
@@ -25,7 +33,7 @@
 			    ],
 				datasets: [
           {
-            label: 'Ganho Diário',
+            label: 'Total Líquido da Nota',
             borderColor: 'rgb(255, 0, 0)',
             data: [
               <#list notas as nota >
@@ -33,7 +41,7 @@
               </#list >
             ]
 				  }, {
-            label: 'Acmuluado',
+            label: 'Acumulado',
             borderColor: 'rgb(0, 0, 255)',
             data: [
               <#list sum as s >
@@ -47,5 +55,6 @@
 			options: { }
 	    });
 	</script>
+
 </html>
 
