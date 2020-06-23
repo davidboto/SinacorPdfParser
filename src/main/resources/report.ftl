@@ -14,6 +14,7 @@
 	<body>
 		<h2 style="text-align: center" > Relatório Geral </h1>
 		<div style="width:75%; margin:auto;">
+	      <p> <strong> Retorno (R$): </strong> ${retorno?c} </p>
 	      <canvas id="myChart"></canvas>
 	      <div style="text-align:right; margin-top:10px">
 	      	Relatório gerado em ${diahora}

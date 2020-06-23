@@ -65,6 +65,7 @@ public class Cliente {
 		Map<String, Object> input = new HashMap<String, Object>();
         input.put("notas", notasNegociacao);
         input.put("sum", acumulado);
+        input.put("retorno", getTotal());
         input.put("diahora", Instant.now());
         
         Writer fileWriter = new FileWriter(new File(OUTPUT_FOLDER + "/relatorio-" + Instant.now().getEpochSecond() + ".html"));
@@ -86,6 +87,10 @@ public class Cliente {
 		Writer fileWriter = new FileWriter(new File(OUTPUT_FOLDER + "/notasNegociacao-" + Instant.now().getEpochSecond() + ".json"));
 		fileWriter.append(new Exporter().toCSV(notasNegociacao));
 		fileWriter.close();
+	}
+	
+	public Double getTotal() {
+		return notasNegociacao.stream().map(e -> e.getTotalLiquidoDaNota()).reduce(0.0, (x, y) -> x + y );
 	}
 
     public String executar() throws IOException, TemplateException, IllegalArgumentException, IllegalAccessException {
