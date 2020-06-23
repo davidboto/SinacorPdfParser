@@ -85,7 +85,7 @@ public class Cliente {
 	
 	private void exportarJson() throws IllegalArgumentException, IllegalAccessException, IOException{
 		Writer fileWriter = new FileWriter(new File(OUTPUT_FOLDER + "/notasNegociacao-" + Instant.now().getEpochSecond() + ".json"));
-		fileWriter.append(new Exporter().toCSV(notasNegociacao));
+		fileWriter.append(new Exporter().toJson(notasNegociacao));
 		fileWriter.close();
 	}
 	

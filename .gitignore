@@ -69,5 +69,5 @@ local.properties
 .classpath
 
 # Store output data generated
-
+output/**
 
