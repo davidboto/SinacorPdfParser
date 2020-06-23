@@ -55,7 +55,13 @@ public class Cliente {
 	private ArrayList<NotaNegociacao> getNotasNegociacao() throws IOException {
 		pdf2Text = new PDFToText(caminho, senha);
 		parser = new Parser(pdf2Text.getText()).extract();
-		notasNegociacao = parser.getNotas();	
+		notasNegociacao = parser.getNotas();
+		if(notasNegociacao.isEmpty()) {
+			 System.out.println(
+					 "Não foi possível extrair os campos da(s) nota(s) informada(s). \n"
+					+ "Padrão suportado: nota de corretagem de operações na BM&F.");
+			 System.exit(0);
+		}
 		return notasNegociacao;
 	}
 	

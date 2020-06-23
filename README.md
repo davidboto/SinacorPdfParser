@@ -1,8 +1,10 @@
 # Sinacor PDF Parser
 
-Objetivo: Extrair os principais campos de uma ou mais notas de corretagem e exibi-los em um dado formato (até o momento, .csv).
+Objetivo: Extrair os principais campos de uma ou mais notas de corretagem e exibi-los em um dado formato (até o momento, .csv, .json). 
 
-## Passos necessários
+Limitações: Por ora, limita-se as notas de corretagem de operações na BM&F.
+
+### Passos necessários
 
 1. Clonar este repostório:
 ```shell
@@ -27,7 +29,9 @@ java -jar build/libs/SinacorPDFParser-all.jar <caminho_pdf> <senha>
 ### TODO
 
 - [ ] saída em outros formatos (json, csv, xml, ...)
-- [ ] plotar grafico com so resultados
+- [x] plotar grafico com so resultados
 - [ ] operações como sum(), avg(), cumulative_sum()
 - [ ] permitir que mais de um arquivo seja lido por vez (e.g., informando caminho para diretório ao invés de somente um único arquivo)
 - [ ] exibir demais campos da nota de negociação no relatório geral.
+- [ ] nota de corretagem de operações na Bovespa
+- [x] nota de corretagem de operações na BM&F
