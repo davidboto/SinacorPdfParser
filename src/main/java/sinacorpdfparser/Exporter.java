@@ -35,4 +35,25 @@ public class Exporter {
 		return content.toString();
 	}
 	
+	public String toCSVBovespa(ArrayList<NotaNegociacaoBovespa> notas) throws IllegalArgumentException, IllegalAccessException {
+		StringBuilder content = new StringBuilder();
+		Field[] fields = NotaNegociacaoBovespa.class.getDeclaredFields();
+	
+		// Cabeçalho: nome do campos
+		String prefix = "";
+		for (Field field : fields) {
+			content.append(prefix + field.getName());
+			prefix = ";";
+		}
+		content.append("\n");
+		
+		// Conteúdo
+		for(NotaNegociacaoBovespa nota : notas) {
+			content.append(nota.toCSV());
+			content.append("\n");
+		}
+		
+		return content.toString();
+	}
+	
 }

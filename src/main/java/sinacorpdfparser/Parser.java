@@ -8,9 +8,15 @@ public class Parser {
 	
 	private ArrayList<NotaNegociacao> notas;
 	
+	private ArrayList<NotaNegociacaoBovespa> notasBovespa;
+	
 	public Parser( String documentText ) {
-		this.documentLines = documentText.split("\r\n|\r|\n");;
+		this.documentLines = documentText.split("\r\n|\r|\n");
+//		for(String str : documentLines) {
+//			System.out.println(str);
+//		}
 		notas = new ArrayList<NotaNegociacao>();
+		notasBovespa = new ArrayList<NotaNegociacaoBovespa>();
 	}
 
 	public Parser extract() {
@@ -68,6 +74,16 @@ public class Parser {
 				}
 			}
 		}
+		
+	
+		for (int i = 0; i < documentLines.length; i++) {
+			if (documentLines[i].contains("Resumo dos Negócios")) {
+				NotaNegociacaoBovespa notaBovespa = new NotaNegociacaoBovespa();
+				notaBovespa.setVendaAVista(extract(documentLines[i-7]));
+				notasBovespa.add(notaBovespa);
+			}
+		}
+		
 		return this;
 	}
 	
@@ -102,4 +118,10 @@ public class Parser {
 	public ArrayList<NotaNegociacao> getNotas() {
 		return notas;
 	}
+	
+	public ArrayList<NotaNegociacaoBovespa> getNotasBovespa() {
+		return notasBovespa;
+	}
+	
+	
 }

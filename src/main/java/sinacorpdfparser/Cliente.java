@@ -25,6 +25,8 @@ public class Cliente {
 	
 	private ArrayList<NotaNegociacao> notasNegociacao;
 	
+	private ArrayList<NotaNegociacaoBovespa> notasNegociacaoBovespa;
+	
 	private Double [] acumulado;
 	
 	private Parser parser;
@@ -56,12 +58,7 @@ public class Cliente {
 		pdf2Text = new PDFToText(caminho, senha);
 		parser = new Parser(pdf2Text.getText()).extract();
 		notasNegociacao = parser.getNotas();
-		if(notasNegociacao.isEmpty()) {
-			 System.out.println(
-					 "Não foi possível extrair os campos da(s) nota(s) informada(s). \n"
-					+ "Padrão suportado: nota de corretagem de operações na BM&F.");
-			 System.exit(0);
-		}
+		notasNegociacaoBovespa = parser.getNotasBovespa();
 		return notasNegociacao;
 	}
 	
@@ -101,10 +98,23 @@ public class Cliente {
 
     public String executar() throws IOException, TemplateException, IllegalArgumentException, IllegalAccessException {
     	getNotasNegociacao();
-    	getAcumulado();
-    	gerarRelatorio();
-    	exportarJson();
-    	return new Exporter().toCSV(notasNegociacao);
+    	
+		if(notasNegociacao == null || notasNegociacao.isEmpty()) {
+			 System.out.println(
+					 "Não foi possível extrair os campos da(s) nota(s) informada(s). \n"
+					+ "Padrão suportado: nota de corretagem de operações na BM&F.");
+		} else {
+	    	getAcumulado();
+	    	gerarRelatorio();
+	    	exportarJson();
+	    	System.out.println(new Exporter().toCSV(notasNegociacao));
+		} 
+		 	
+    	if(notasNegociacaoBovespa != null && !notasNegociacaoBovespa.isEmpty()) { 
+    		System.out.println(new Exporter().toCSVBovespa(notasNegociacaoBovespa));
+    	}
+    	
+    	return "";
     }
 	
 }
