@@ -4,6 +4,8 @@ Objetivo: Extrair os principais campos de uma ou mais notas de corretagem e exib
 
 Limitações: Por ora, limita-se as notas de corretagem de operações na BM&F.
 
+Testado com notas emitidas pelas corretoras Clear e Rico.
+
 ### Passos necessários
 
 1. Clonar este repostório:
