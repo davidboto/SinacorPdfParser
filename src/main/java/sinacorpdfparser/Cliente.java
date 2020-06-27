@@ -25,8 +25,6 @@ public class Cliente {
 	
 	private ArrayList<NotaNegociacao> notasNegociacao;
 	
-	private ArrayList<NotaNegociacaoBovespa> notasNegociacaoBovespa;
-	
 	private Double [] acumulado;
 	
 	private Parser parser;
@@ -57,8 +55,9 @@ public class Cliente {
 	private ArrayList<NotaNegociacao> getNotasNegociacao() throws IOException {
 		pdf2Text = new PDFToText(caminho, senha);
 		parser = new Parser(pdf2Text.getText()).extract();
-		notasNegociacao = parser.getNotas();
-		notasNegociacaoBovespa = parser.getNotasBovespa();
+		notasNegociacao = new ArrayList<NotaNegociacao>();
+		notasNegociacao.addAll(parser.getNotas());
+		notasNegociacao.addAll(parser.getNotasBovespa());
 		return notasNegociacao;
 	}
 	
@@ -81,9 +80,9 @@ public class Cliente {
 	
 	private void getAcumulado() {
 		acumulado = new Double[notasNegociacao.size()]; 
-		acumulado[0] = notasNegociacao.get(0).getTotalLiquidoDaNota();
+		acumulado[0] = ((NotaNegociacaoBMF) notasNegociacao.get(0)).getTotalLiquidoDaNota();
 		for(int i = 1; i < notasNegociacao.size(); i++)
-			acumulado[i] = acumulado[i-1] + (notasNegociacao.get(i)).getTotalLiquidoDaNota();
+			acumulado[i] = acumulado[i-1] + ((NotaNegociacaoBMF) notasNegociacao.get(i)).getTotalLiquidoDaNota();
 	}
 	
 	private void exportarJson() throws IllegalArgumentException, IllegalAccessException, IOException{
@@ -93,26 +92,28 @@ public class Cliente {
 	}
 	
 	public Double getTotal() {
-		return notasNegociacao.stream().map(e -> e.getTotalLiquidoDaNota()).reduce(0.0, (x, y) -> x + y );
+		return notasNegociacao.stream().map(e -> ((NotaNegociacaoBMF) e).getTotalLiquidoDaNota()).reduce(0.0, (x, y) -> x + y );
 	}
 
     public String executar() throws IOException, TemplateException, IllegalArgumentException, IllegalAccessException {
     	getNotasNegociacao();
     	
-		if(notasNegociacao == null || notasNegociacao.isEmpty()) {
-			 System.out.println(
-					 "Não foi possível extrair os campos da(s) nota(s) informada(s). \n"
-					+ "Padrão suportado: nota de corretagem de operações na BM&F.");
-		} else {
-	    	getAcumulado();
-	    	gerarRelatorio();
-	    	exportarJson();
-	    	System.out.println(new Exporter().toCSV(notasNegociacao));
-		} 
-		 	
-    	if(notasNegociacaoBovespa != null && !notasNegociacaoBovespa.isEmpty()) { 
-    		System.out.println(new Exporter().toCSVBovespa(notasNegociacaoBovespa));
-    	}
+    	System.out.println(new Exporter().toCSV(notasNegociacao));
+    	
+//		if(notasNegociacao == null || notasNegociacao.isEmpty()) {
+//			 System.out.println(
+//					 "Não foi possível extrair os campos da(s) nota(s) informada(s). \n"
+//					+ "Padrão suportado: nota de corretagem de operações na BM&F.");
+//		} else {
+//	    	getAcumulado();
+//	    	gerarRelatorio();
+//	    	exportarJson();
+//	    	System.out.println(new Exporter().toCSV(notasNegociacao));
+//		} 
+//
+//    	if(notasNegociacao != null && !notasNegociacao.isEmpty()) { 
+//    		System.out.println(new Exporter().toCSV(notasNegociacao));
+//    	}
     	
     	return "";
     }

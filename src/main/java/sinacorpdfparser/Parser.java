@@ -6,21 +6,18 @@ public class Parser {
 	
 	private String [] documentLines;
 	
-	private ArrayList<NotaNegociacao> notas;
+	private ArrayList<NotaNegociacaoBMF> notas;
 	
 	private ArrayList<NotaNegociacaoBovespa> notasBovespa;
 	
 	public Parser( String documentText ) {
 		this.documentLines = documentText.split("\r\n|\r|\n");
-//		for(String str : documentLines) {
-//			System.out.println(str);
-//		}
-		notas = new ArrayList<NotaNegociacao>();
+		notas = new ArrayList<NotaNegociacaoBMF>();
 		notasBovespa = new ArrayList<NotaNegociacaoBovespa>();
 	}
 
 	public Parser extract() {
-		NotaNegociacao nota = new NotaNegociacao();
+		NotaNegociacaoBMF nota = new NotaNegociacaoBMF();
 		for (int i = 0; i < documentLines.length; i++) {
 			
 			if (documentLines[i].contains("NOTA DE NEGOCIAÇÃO Nr. nota")) {
@@ -70,7 +67,7 @@ public class Parser {
 					nota.setTotalLiquido(tokenize(documentLines[(i+1)], 4));
 					nota.setTotalLiquidoDaNota(tokenize(documentLines[(i+1)], 5));
 					notas.add(nota);
-					nota = new NotaNegociacao();
+					nota = new NotaNegociacaoBMF();
 				}
 			}
 		}
@@ -115,7 +112,7 @@ public class Parser {
 		return amount;
 	}
 	
-	public ArrayList<NotaNegociacao> getNotas() {
+	public ArrayList<NotaNegociacaoBMF> getNotas() {
 		return notas;
 	}
 	

@@ -2,7 +2,7 @@ package sinacorpdfparser;
 
 import java.lang.reflect.Field;
 
-public class NotaNegociacaoBovespa {
+public class NotaNegociacaoBovespa extends NotaNegociacao {
 	
 	private Double vendaAVista;
 	private Double valorDasOperacoes;
