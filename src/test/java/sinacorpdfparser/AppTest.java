@@ -6,9 +6,48 @@ package sinacorpdfparser;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+
 public class AppTest {
-    @Test public void testAppHasAGreeting() {
-        App classUnderTest = new App();
-//        assertNotNull("app should have a greeting", classUnderTest.getGreeting());
+    @Test public void filtraNotas() {
+        
+    	ArrayList<NotaNegociacao> listaDeNotas = new ArrayList<NotaNegociacao>();
+    	
+    	NotaNegociacaoBovespa notaBovespa01 = new NotaNegociacaoBovespa();
+    	NotaNegociacaoBovespa notaBovespa02 = new NotaNegociacaoBovespa();
+    	NotaNegociacaoBovespa notaBovespa03 = new NotaNegociacaoBovespa();
+    	
+    	NotaNegociacaoBMF notaBMF01 = new NotaNegociacaoBMF();
+    	NotaNegociacaoBMF notaBMF02 = new NotaNegociacaoBMF();
+    	NotaNegociacaoBMF notaBMF03 = new NotaNegociacaoBMF();
+    	
+    	NotaNegociacaoHelper notaNegociacaoHelper = new NotaNegociacaoHelper();
+    	
+    	notaBovespa01.setValorDasOperacoes(10.0);
+    	notaBovespa02.setValorDasOperacoes(20.0);
+    	notaBovespa03.setValorDasOperacoes(30.0);
+    	
+    	notaBMF01.setTotalLiquidoDaNota(40.0);
+    	notaBMF02.setTotalLiquidoDaNota(50.0);
+    	notaBMF03.setTotalLiquidoDaNota(60.0);
+    	
+    	listaDeNotas.add(notaBovespa01);
+    	listaDeNotas.add(notaBovespa02);
+    	listaDeNotas.add(notaBovespa03);
+    	
+    	listaDeNotas.add(notaBMF01);
+    	listaDeNotas.add(notaBMF02);
+    	listaDeNotas.add(notaBMF03);
+    	
+    	ArrayList<NotaNegociacao> notasFiltradas = notaNegociacaoHelper.getNotas(listaDeNotas, NotaNegociacaoBovespa.class);
+    	
+    	// Contém somente três notas
+    	assert(notasFiltradas.size() == 3);
+    	
+    	// Não contém nota bmf
+    	assert(!notasFiltradas.contains(notaBMF01));
+    	assert(!notasFiltradas.contains(notaBMF02));
+    	assert(!notasFiltradas.contains(notaBMF03));
+        
     }
 }

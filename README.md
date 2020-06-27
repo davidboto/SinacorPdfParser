@@ -6,7 +6,7 @@ Limitações: Por ora, limita-se as notas de corretagem de operações na BM&F.
 
 Testado com notas emitidas pelas corretoras Clear e Rico.
 
-### Passos necessários
+## Passos necessários
 
 1. Clonar este repostório:
 ```shell
@@ -26,6 +26,13 @@ java -jar build/libs/SinacorPDFParser-all.jar <caminho_pdf>
 3.1 Executar (arquivo protegido com senha):
 ```shell
 java -jar build/libs/SinacorPDFParser-all.jar <caminho_pdf> <senha>
+```
+
+## Resultado
+
+Os arquivos gerados após a execução podem ser encontrados em:
+```shell
+output/
 ```
 
 ### TODO

@@ -61,11 +61,11 @@ public class Cliente {
 		return notasNegociacao;
 	}
 	
-	private void gerarRelatorio() throws IOException, TemplateException {
+	private void gerarRelatorio(ArrayList<NotaNegociacao> notas) throws IOException, TemplateException {
 		template = cfg.getTemplate("report.ftl");
         
 		Map<String, Object> input = new HashMap<String, Object>();
-        input.put("notas", notasNegociacao);
+        input.put("notas", notas);
         input.put("sum", acumulado);
         input.put("retorno", getTotal());
         input.put("diahora", Instant.now());
@@ -76,18 +76,19 @@ public class Cliente {
         } finally {
             fileWriter.close();
         }
+        
 	}
 	
-	private void getAcumulado() {
-		acumulado = new Double[notasNegociacao.size()]; 
-		acumulado[0] = ((NotaNegociacaoBMF) notasNegociacao.get(0)).getTotalLiquidoDaNota();
-		for(int i = 1; i < notasNegociacao.size(); i++)
-			acumulado[i] = acumulado[i-1] + ((NotaNegociacaoBMF) notasNegociacao.get(i)).getTotalLiquidoDaNota();
+	private void getAcumulado(ArrayList<NotaNegociacao> notas) {
+		acumulado = new Double[notas.size()]; 
+		acumulado[0] = ((NotaNegociacaoBMF) notas.get(0)).getTotalLiquidoDaNota();
+		for(int i = 1; i < notas.size(); i++)
+			acumulado[i] = acumulado[i-1] + ((NotaNegociacaoBMF) notas.get(i)).getTotalLiquidoDaNota();
 	}
 	
-	private void exportarJson() throws IllegalArgumentException, IllegalAccessException, IOException{
+	private void exportarJson(ArrayList<NotaNegociacao> notas) throws IllegalArgumentException, IllegalAccessException, IOException{
 		Writer fileWriter = new FileWriter(new File(OUTPUT_FOLDER + "/notasNegociacao-" + Instant.now().getEpochSecond() + ".json"));
-		fileWriter.append(new Exporter().toJson(notasNegociacao));
+		fileWriter.append(new Exporter().toJson(notas));
 		fileWriter.close();
 	}
 	
@@ -97,24 +98,19 @@ public class Cliente {
 
     public String executar() throws IOException, TemplateException, IllegalArgumentException, IllegalAccessException {
     	getNotasNegociacao();
-    	
-    	System.out.println(new Exporter().toCSV(notasNegociacao));
-    	
-//		if(notasNegociacao == null || notasNegociacao.isEmpty()) {
-//			 System.out.println(
-//					 "Não foi possível extrair os campos da(s) nota(s) informada(s). \n"
-//					+ "Padrão suportado: nota de corretagem de operações na BM&F.");
-//		} else {
-//	    	getAcumulado();
-//	    	gerarRelatorio();
-//	    	exportarJson();
-//	    	System.out.println(new Exporter().toCSV(notasNegociacao));
-//		} 
-//
-//    	if(notasNegociacao != null && !notasNegociacao.isEmpty()) { 
-//    		System.out.println(new Exporter().toCSV(notasNegociacao));
-//    	}
-    	
+    	 	
+		if(notasNegociacao == null || notasNegociacao.isEmpty()) {
+			 System.out.println(
+					 "Não foi possível extrair os campos da(s) nota(s) informada(s). \n"
+					+ "Padrão suportado: nota de corretagem de operações na BM&F.");
+		} else {
+	    	getAcumulado(NotaNegociacaoHelper.getNotas(notasNegociacao, NotaNegociacaoBMF.class));
+	    	gerarRelatorio(NotaNegociacaoHelper.getNotas(notasNegociacao, NotaNegociacaoBMF.class));
+	    	exportarJson(NotaNegociacaoHelper.getNotas(notasNegociacao, NotaNegociacaoBMF.class));
+		} 
+		
+		System.out.println(new Exporter().toCSV(notasNegociacao));
+
     	return "";
     }
 	
