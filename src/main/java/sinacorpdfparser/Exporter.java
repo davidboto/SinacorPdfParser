@@ -16,23 +16,31 @@ public class Exporter {
 	
 	public String toCSV(ArrayList<NotaNegociacao> notas) throws IllegalArgumentException, IllegalAccessException {
 		StringBuilder content = new StringBuilder();
-		Field[] fields = NotaNegociacao.class.getDeclaredFields();
-	
-		// Cabeçalho: nome do campos
-		String prefix = "";
-		for (Field field : fields) {
-			content.append(prefix + field.getName());
-			prefix = ";";
-		}
-		content.append("\n");
+		int qtdCampos = 0;
 		
-		// Conteúdo
+		/** Conteúdo das notas **/
 		for(NotaNegociacao nota : notas) {
+			if(nota.getClass().getDeclaredFields().length != qtdCampos) {
+				qtdCampos = nota.getClass().getDeclaredFields().length;
+				content.append(getHeader(nota));
+			}
 			content.append(nota.toCSV());
 			content.append("\n");
 		}
 		
 		return content.toString();
+	}
+	
+	public String getHeader(NotaNegociacao nota) {
+		StringBuilder header = new StringBuilder();
+		Field[] fields = nota.getClass().getDeclaredFields();
+		String prefix = "";
+		for (Field field : fields) {
+			header.append(prefix + field.getName());
+			prefix = ";";
+		}
+		header.append("\n");
+		return header.toString();
 	}
 	
 }
