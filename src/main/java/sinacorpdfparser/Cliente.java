@@ -18,7 +18,7 @@ import freemarker.template.TemplateExceptionHandler;
 
 public class Cliente {
 	
-	private static Configuration cfg;
+	private static Configuration config;
 	
 	private Template template;
 
@@ -37,11 +37,11 @@ public class Cliente {
 	private final static String OUTPUT_FOLDER = "output";
 	
 	static { 
-		cfg = new Configuration();
-    	cfg.setClassForTemplateLoading(App.class, "/");
-    	cfg.setDefaultEncoding("UTF-8");
-    	cfg.setLocale(Locale.US);
-    	cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
+		config = new Configuration();
+		config.setClassForTemplateLoading(App.class, "/");
+		config.setDefaultEncoding("UTF-8");
+		config.setLocale(Locale.US);
+		config.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
 	}
 	
 	Cliente(String caminho){
@@ -63,7 +63,7 @@ public class Cliente {
 	}
 	
 	private void gerarRelatorio(ArrayList<NotaNegociacao> notas) throws IOException, TemplateException {
-		template = cfg.getTemplate("report.ftl");
+		template = config.getTemplate("report.ftl");
         
 		Map<String, Object> input = new HashMap<String, Object>();
         input.put("notas", notas);
@@ -77,6 +77,7 @@ public class Cliente {
         } finally {
             fileWriter.close();
         }
+        
 	}
 	
 	private void getAcumulado(ArrayList<NotaNegociacao> notas) {
@@ -102,11 +103,15 @@ public class Cliente {
 		if(notasNegociacao == null || notasNegociacao.isEmpty()) {
 			 System.out.println(
 					 "Não foi possível extrair os campos da(s) nota(s) informada(s). \n"
-					+ "Padrão suportado: nota de corretagem de operações na BM&F.");
+					+ "Padrões suportados: nota de corretagem de operações na BM&F e Bovespa. \n"
+					+ "Testado para as corretoras: Rico e Clear" );
 		} else {
-	    	getAcumulado(NotaNegociacaoHelper.getNotas(notasNegociacao, NotaNegociacaoBMF.class));
-	    	gerarRelatorio(NotaNegociacaoHelper.getNotas(notasNegociacao, NotaNegociacaoBMF.class));
-	    	exportarJson(NotaNegociacaoHelper.getNotas(notasNegociacao, NotaNegociacaoBMF.class));
+			ArrayList<NotaNegociacao> notas = NotaNegociacaoHelper.getNotas(notasNegociacao, NotaNegociacaoBMF.class);
+	    	if(!notas.isEmpty()) {
+	    		getAcumulado(NotaNegociacaoHelper.getNotas(notasNegociacao, NotaNegociacaoBMF.class));
+	    		gerarRelatorio(NotaNegociacaoHelper.getNotas(notasNegociacao, NotaNegociacaoBMF.class));
+	    		exportarJson(NotaNegociacaoHelper.getNotas(notasNegociacao, NotaNegociacaoBMF.class));
+	    	}
 		} 
 		
 		System.out.println(new Exporter().toCSV(notasNegociacao));

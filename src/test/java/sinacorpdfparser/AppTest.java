@@ -4,11 +4,14 @@
 package sinacorpdfparser;
 
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class AppTest {
+	
     @Test public void filtraNotas() {
         
     	ArrayList<NotaNegociacao> listaDeNotas = new ArrayList<NotaNegociacao>();
@@ -23,9 +26,9 @@ public class AppTest {
     	
     	NotaNegociacaoHelper notaNegociacaoHelper = new NotaNegociacaoHelper();
     	
-    	notaBovespa01.setValorDasOperacoes(10.0);
-    	notaBovespa02.setValorDasOperacoes(20.0);
-    	notaBovespa03.setValorDasOperacoes(30.0);
+    	notaBovespa01.setValorDasOperacaoes(10.0);
+    	notaBovespa02.setValorDasOperacaoes(20.0);
+    	notaBovespa03.setValorDasOperacaoes(30.0);
     	
     	notaBMF01.setTotalLiquidoDaNota(40.0);
     	notaBMF02.setTotalLiquidoDaNota(50.0);
@@ -50,7 +53,17 @@ public class AppTest {
     	assert(!notasFiltradas.contains(notaBMF03));
     	
     	// Retorna uma nova lista, sem alterar a lista original
-    	assert(listaDeNotas.size() == 6);
-        
+    	assert(listaDeNotas.size() == 6); 
     }
+    
+    @Test public void regExpressionBov() {
+    	String linhaExemplo = " 61,43Total CBLC D ";
+        Pattern pattern = Pattern.compile("\\d+([\\.\\,]\\d+)+");
+        Matcher matcher = pattern.matcher(linhaExemplo);
+	
+        String a = matcher.group();
+        System.out.println(a);
+        assert(a.equals("61,43"));
+    }
+    
 }

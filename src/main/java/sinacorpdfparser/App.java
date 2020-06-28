@@ -18,13 +18,12 @@ public class App {
 		} else if (args.length == 2) {
 			cliente = new Cliente(args[0].toString(), args[1].toString());
 		} else {
-			System.err.println(" Número inválido de parâmetros.");
+			System.out.println(" Número inválido de parâmetros.");
 			System.out.println(" Exemplos de uso: ");
 			System.out.println("  1: java -jar parser.jar <caminho_do_arquivo.pdf>");
 			System.out.println("  2: java -jar parser.jar <caminho_do_arquivo.pdf> <senha_do_pdf>");
-			System.exit(-1);
+			System.exit(0);
 		}
 		System.out.println(cliente.executar());
-
     }
 }
