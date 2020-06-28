@@ -7,6 +7,7 @@ import java.io.Writer;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -67,7 +68,7 @@ public class Cliente {
 		Map<String, Object> input = new HashMap<String, Object>();
         input.put("notas", notas);
         input.put("sum", acumulado);
-        input.put("retorno", getTotal());
+        input.put("retorno", getTotal(notas));
         input.put("diahora", Instant.now());
         
         Writer fileWriter = new FileWriter(new File(OUTPUT_FOLDER + "/relatorio-" + Instant.now().getEpochSecond() + ".html"));
@@ -76,7 +77,6 @@ public class Cliente {
         } finally {
             fileWriter.close();
         }
-        
 	}
 	
 	private void getAcumulado(ArrayList<NotaNegociacao> notas) {
@@ -92,8 +92,8 @@ public class Cliente {
 		fileWriter.close();
 	}
 	
-	public Double getTotal() {
-		return notasNegociacao.stream().map(e -> ((NotaNegociacaoBMF) e).getTotalLiquidoDaNota()).reduce(0.0, (x, y) -> x + y );
+	public Double getTotal(List<NotaNegociacao> notas) {
+		return notas.stream().map(e -> ((NotaNegociacaoBMF) e).getTotalLiquidoDaNota()).reduce(0.0, (x, y) -> x + y );
 	}
 
     public String executar() throws IOException, TemplateException, IllegalArgumentException, IllegalAccessException {

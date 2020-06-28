@@ -76,6 +76,7 @@ public class Parser {
 		for (int i = 0; i < documentLines.length; i++) {
 			if (documentLines[i].contains("Resumo dos Negócios")) {
 				NotaNegociacaoBovespa notaBovespa = new NotaNegociacaoBovespa();
+				notaBovespa.setDataPregao(documentLines[i-40]);
 				notaBovespa.setVendaAVista(extract(documentLines[i-7]));
 				notasBovespa.add(notaBovespa);
 			}

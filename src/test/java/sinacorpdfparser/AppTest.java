@@ -48,6 +48,9 @@ public class AppTest {
     	assert(!notasFiltradas.contains(notaBMF01));
     	assert(!notasFiltradas.contains(notaBMF02));
     	assert(!notasFiltradas.contains(notaBMF03));
+    	
+    	// Retorna uma nova lista, sem alterar a lista original
+    	assert(listaDeNotas.size() == 6);
         
     }
 }

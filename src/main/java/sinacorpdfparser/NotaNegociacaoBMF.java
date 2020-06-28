@@ -4,8 +4,6 @@ import java.lang.reflect.Field;
 
 public class NotaNegociacaoBMF extends NotaNegociacao {
 
-	private String DataPregao;
-	private String NrNotaNegociacao;
 	private Double VendaDisponivel;
 	private Double CompraDisponivel;
 	private Double VendaOpcoes;
@@ -29,22 +27,6 @@ public class NotaNegociacaoBMF extends NotaNegociacao {
 	private Double TotalLiquidoDaNota;
 
 	public NotaNegociacaoBMF() {
-	}
-
-	public String getDataPregao() {
-		return DataPregao;
-	}
-
-	public void setDataPregao(String dataPregao) {
-		DataPregao = dataPregao;
-	}
-
-	public String getNrNotaNegociacao() {
-		return NrNotaNegociacao;
-	}
-
-	public void setNrNotaNegociacao(String nrNotaNegociacao) {
-		NrNotaNegociacao = nrNotaNegociacao;
 	}
 
 	public Double getVendaDisponivel() {
