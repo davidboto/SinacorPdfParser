@@ -22,7 +22,7 @@ public class Cliente {
 	
 	private Template template;
 
-	private	PDFToText pdf2Text = new PDFToText();
+	private	PDFToText pdf2Text;
 	
 	private ArrayList<NotaNegociacao> notasNegociacao;
 	
@@ -54,11 +54,18 @@ public class Cliente {
 	}
 	
 	private ArrayList<NotaNegociacao> getNotasNegociacao() throws IOException {
-		pdf2Text = new PDFToText(caminho, senha);
-		parser = new Parser(pdf2Text.getText()).extract();
 		notasNegociacao = new ArrayList<NotaNegociacao>();
+		pdf2Text = new PDFToText(caminho, senha);
+		
+		String text = pdf2Text.getText();
+		
+		parser = new ParserBovespa(text).extract();
 		notasNegociacao.addAll(parser.getNotas());
-		notasNegociacao.addAll(parser.getNotasBovespa());
+
+
+		parser = new ParserBMF(text).extract();
+		notasNegociacao.addAll(parser.getNotas());
+		
 		return notasNegociacao;
 	}
 	
@@ -113,9 +120,7 @@ public class Cliente {
 	    		exportarJson(NotaNegociacaoHelper.getNotas(notasNegociacao, NotaNegociacaoBMF.class));
 	    	}
 		} 
-		
 		System.out.println(new Exporter().toCSV(notasNegociacao));
-
     	return "";
     }
 	
