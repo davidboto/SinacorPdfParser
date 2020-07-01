@@ -52,6 +52,13 @@ public class Cliente {
 		this.caminho = caminho;
 		this.senha = senha;
 	}
+ 	
+	Cliente(String caminho, String senha, Parser parser){
+		this.caminho = caminho;
+		this.senha = senha;
+		this.parser = parser;
+	}
+	
 	
 	private ArrayList<NotaNegociacao> getNotasNegociacao() throws IOException {
 		notasNegociacao = new ArrayList<NotaNegociacao>();
