@@ -3,7 +3,16 @@
  */
 package sinacorpdfparser;
 
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.ParseException;
+
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import freemarker.template.TemplateException;
 
@@ -11,19 +20,50 @@ public class App {
 
 	private static Cliente cliente;
 	
-    public static void main(String[] args) throws IOException, TemplateException, IllegalArgumentException, IllegalAccessException  {
+    public static void main(String[] args) throws IOException, TemplateException, IllegalArgumentException, IllegalAccessException, ParseException  {
 
-		if(args.length == 1) {
-			cliente = new Cliente(args[0].toString());
-		} else if (args.length == 2) {
-			cliente = new Cliente(args[0].toString(), args[1].toString());
-		} else {
-			System.out.println(" Número inválido de parâmetros.");
-			System.out.println(" Exemplos de uso: ");
-			System.out.println("  1: java -jar parser.jar <caminho_do_arquivo.pdf>");
-			System.out.println("  2: java -jar parser.jar <caminho_do_arquivo.pdf> <senha_do_pdf>");
-			System.exit(0);
-		}
-		System.out.println(cliente.executar());
+    	Options options = new Options();
+    	
+    	options.addOption(Option.builder()
+		         .longOpt("arquivo")
+		         .argName("localizacao do arquivo .pdf")
+		         .hasArg()
+		         .desc("caminho do arquivo .pdf" )
+		         .build());
+    
+    	options.addOption(Option.builder()
+		         .longOpt("senha")
+		         .argName("senha do arquivo")
+		         .hasArg()
+		         .desc("senha do arquivo, quando houver")
+		         .build());
+	
+    	options
+    	.addOption("bovespa", false, "notas de corretagem de operacoes na bovespa")
+    	.addOption("bmf", false, "notas de corretagem de operacoes na bmf");
+    	
+        CommandLineParser cmdLineParser = new DefaultParser();
+        
+        CommandLine cmd = cmdLineParser.parse( options, args);
+    	
+        HelpFormatter formatter = new HelpFormatter();
+
+        final PrintWriter writer = new PrintWriter(System.out);
+        
+        if(!cmd.hasOption("arquivo")) {
+        
+        	formatter.printUsage(writer,80,"java -jar build/libs/SinacorPDFParser-all.jar", options);
+            writer.flush();
+            
+         } else {
+        	 cliente = new Cliente(cmd.getOptionValue( "arquivo" ));    	 
+        	 
+        	 if(cmd.hasOption("senha")) {
+        		 cliente = new Cliente(cmd.getOptionValue( "arquivoNota" ), cmd.getOptionValue( "senha" ));    	 
+        	 }
+        	 
+        	 System.out.println(cliente.executar());
+         }
+        
     }
 }

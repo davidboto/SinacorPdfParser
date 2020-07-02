@@ -20,12 +20,12 @@ gradle shadowJar
 
 3. Executar:
 ```shell
-java -jar build/libs/SinacorPDFParser-all.jar <caminho_pdf> 
+java -jar build/libs/SinacorPDFParser-all.jar --arquivo <arquivo>
 ```
 
 3.1 Executar (arquivo protegido com senha):
 ```shell
-java -jar build/libs/SinacorPDFParser-all.jar <caminho_pdf> <senha>
+java -jar build/libs/SinacorPDFParser-all.jar --arquivo <arquivo> --senha <senha>
 ```
 
 ## Resultado
