@@ -43,22 +43,12 @@ public class Cliente {
 		config.setLocale(Locale.US);
 		config.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
 	}
-	
-	Cliente(String caminho){
-		this.caminho = caminho;
-	}
- 	
-	Cliente(String caminho, String senha){
-		this.caminho = caminho;
-		this.senha = senha;
-	}
- 	
+
 	Cliente(String caminho, String senha, Parser parser){
 		this.caminho = caminho;
 		this.senha = senha;
 		this.parser = parser;
 	}
-	
 	
 	private ArrayList<NotaNegociacao> getNotasNegociacao() throws IOException {
 		notasNegociacao = new ArrayList<NotaNegociacao>();

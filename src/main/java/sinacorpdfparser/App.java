@@ -18,10 +18,11 @@ import freemarker.template.TemplateException;
 
 public class App {
 
-	private static Cliente cliente;
 	
     public static void main(String[] args) throws IOException, TemplateException, IllegalArgumentException, IllegalAccessException, ParseException  {
 
+    	ClienteBuilder clienteBuilder = new ClienteBuilder();
+    	
     	Options options = new Options();
     	
     	options.addOption(Option.builder()
@@ -56,14 +57,13 @@ public class App {
             writer.flush();
             
          } else {
-        	 cliente = new Cliente(cmd.getOptionValue( "arquivo" ));    	 
-        	 
+        	 clienteBuilder.setCaminho(cmd.getOptionValue( "arquivo" ));
         	 if(cmd.hasOption("senha")) {
-        		 cliente = new Cliente(cmd.getOptionValue( "arquivoNota" ), cmd.getOptionValue( "senha" ));    	 
+        		 clienteBuilder.setSenha(cmd.getOptionValue( "senha" ));    	 
         	 }
-        	 
-        	 System.out.println(cliente.executar());
+			
          }
+        System.out.println((clienteBuilder.build()).executar());
         
     }
 }
