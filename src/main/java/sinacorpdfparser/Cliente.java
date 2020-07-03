@@ -53,16 +53,8 @@ public class Cliente {
 	private ArrayList<NotaNegociacao> getNotasNegociacao() throws IOException {
 		notasNegociacao = new ArrayList<NotaNegociacao>();
 		pdf2Text = new PDFToText(caminho, senha);
-		
-		String text = pdf2Text.getText();
-		
-		parser = new ParserBovespa(text).extract();
+		parser.find(pdf2Text.getText());
 		notasNegociacao.addAll(parser.getNotas());
-
-
-		parser = new ParserBMF(text).extract();
-		notasNegociacao.addAll(parser.getNotas());
-		
 		return notasNegociacao;
 	}
 	

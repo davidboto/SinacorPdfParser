@@ -6,6 +6,7 @@ public interface Parser {
 	
 	ArrayList<NotaNegociacao> getNotas();
 	
-	Parser extract();
+	Parser find(String text);
+	
 	
 }

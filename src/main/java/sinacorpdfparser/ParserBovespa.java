@@ -6,17 +6,14 @@ import java.util.regex.Pattern;
 
 public class ParserBovespa implements Parser {
 	
-	private String [] documentLines;
-	
 	private ArrayList<NotaNegociacao> notas;
 
-	public ParserBovespa( String documentText ) {
-		this.documentLines = documentText.split("\r\n|\r|\n");
+	public ParserBovespa() {
 		notas = new ArrayList<NotaNegociacao>();
 	}
-
-	public Parser extract() {
-		
+	
+	public Parser find(String text) {
+		String [] documentLines = text.split("\r\n|\r|\n");
 		NotaNegociacaoBovespa notaBovespa = new NotaNegociacaoBovespa();
 		
 		for (int i = 0; i < documentLines.length; i++) {

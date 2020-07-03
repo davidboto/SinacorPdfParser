@@ -4,17 +4,16 @@ package sinacorpdfparser;
 import java.util.ArrayList;
 
 public class ParserBMF implements Parser {
-
-	private String[] documentLines;
-
+	
 	private ArrayList<NotaNegociacao> notas;
 
-	public ParserBMF(String documentText) {
-		this.documentLines = documentText.split("\r\n|\r|\n");
+	public ParserBMF() {
 		notas = new ArrayList<NotaNegociacao>();
 	}
-
-	public Parser extract() {
+	
+	public Parser find(String text) {
+		String[] documentLines = text.split("\r\n|\r|\n");
+		
 		NotaNegociacaoBMF nota = new NotaNegociacaoBMF();
 		for (int i = 0; i < documentLines.length; i++) {
 
