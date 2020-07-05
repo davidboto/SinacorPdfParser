@@ -5,6 +5,10 @@ import java.util.ArrayList;
 
 import com.google.gson.Gson;
 
+/**
+ * Exporta os dados da notas de negociação na bovespa e bmf.
+ */
+
 public class Exporter {
 
 	public String toJson(ArrayList<NotaNegociacao> notasNegociacao) {
