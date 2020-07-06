@@ -15,6 +15,8 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
+import io.perfmark.PerfMark;
+import io.perfmark.traceviewer.TraceEventViewer;
 
 public class Cliente {
 	
@@ -54,7 +56,13 @@ public class Cliente {
 		notasNegociacao = new ArrayList<NotaNegociacao>();
 		pdf2Text = new PDFToText(caminho, senha);
 		parser.find(pdf2Text.getText());
+		
+		PerfMark.setEnabled(true);
+		PerfMark.startTask("Inicio Parse Nota");
 		notasNegociacao.addAll(parser.getNotas());
+		PerfMark.startTask("Fim Parse Nota");
+		TraceEventViewer.writeTraceHtml();
+		
 		return notasNegociacao;
 	}
 	
