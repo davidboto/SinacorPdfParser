@@ -67,8 +67,9 @@ public class Cliente {
 	}
 	
 	private void gerarRelatorio(ArrayList<NotaNegociacao> notas) throws IOException, TemplateException {
+		PerfMark.setEnabled(true);
+		PerfMark.startTask("Inicio Gerar Relatório");
 		template = config.getTemplate("report.ftl");
-        
 		Map<String, Object> input = new HashMap<String, Object>();
         input.put("notas", notas);
         input.put("sum", acumulado);
@@ -81,7 +82,8 @@ public class Cliente {
         } finally {
             fileWriter.close();
         }
-        
+		PerfMark.startTask("Fim Gerar Relatório");
+		TraceEventViewer.writeTraceHtml();
 	}
 	
 	private void getAcumulado(ArrayList<NotaNegociacao> notas) {
