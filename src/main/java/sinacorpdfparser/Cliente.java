@@ -22,6 +22,8 @@ public class Cliente {
 	
 	private static Configuration config;
 	
+	private final String separator = File.separator;
+	
 	private Template template;
 
 	private	PDFToText pdf2Text;
@@ -56,34 +58,25 @@ public class Cliente {
 		notasNegociacao = new ArrayList<NotaNegociacao>();
 		pdf2Text = new PDFToText(caminho, senha);
 		parser.find(pdf2Text.getText());
-		
-		PerfMark.setEnabled(true);
-		PerfMark.startTask("Inicio Parse Nota");
 		notasNegociacao.addAll(parser.getNotas());
-		PerfMark.startTask("Fim Parse Nota");
-		TraceEventViewer.writeTraceHtml();
-		
 		return notasNegociacao;
 	}
 	
 	private void gerarRelatorio(ArrayList<NotaNegociacao> notas) throws IOException, TemplateException {
-		PerfMark.setEnabled(true);
-		PerfMark.startTask("Inicio Gerar Relatório");
 		template = config.getTemplate("report.ftl");
 		Map<String, Object> input = new HashMap<String, Object>();
+		getAcumulado(NotaNegociacaoHelper.getNotas(notasNegociacao, NotaNegociacaoBMF.class));
         input.put("notas", notas);
         input.put("sum", acumulado);
         input.put("retorno", getTotal(notas));
         input.put("diahora", Instant.now());
         
-        Writer fileWriter = new FileWriter(new File(OUTPUT_FOLDER + "/relatorio-" + Instant.now().getEpochSecond() + ".html"));
+        Writer fileWriter = new FileWriter(new File(OUTPUT_FOLDER + separator + "relatorio-" + Instant.now().getEpochSecond() + ".html"));
         try {
             template.process(input, fileWriter);
         } finally {
             fileWriter.close();
         }
-		PerfMark.startTask("Fim Gerar Relatório");
-		TraceEventViewer.writeTraceHtml();
 	}
 	
 	private void getAcumulado(ArrayList<NotaNegociacao> notas) {
@@ -93,19 +86,14 @@ public class Cliente {
 			acumulado[i] = acumulado[i-1] + ((NotaNegociacaoBMF) notas.get(i)).getTotalLiquidoDaNota();
 	}
 	
-	private void exportarJson(ArrayList<NotaNegociacao> notas) throws IllegalArgumentException, IllegalAccessException, IOException{
-		Writer fileWriter = new FileWriter(new File(OUTPUT_FOLDER + "/notasNegociacao-" + Instant.now().getEpochSecond() + ".json"));
-		fileWriter.append(new Exporter().toJson(notas));
-		fileWriter.close();
-	}
-	
 	public Double getTotal(List<NotaNegociacao> notas) {
 		return notas.stream().map(e -> ((NotaNegociacaoBMF) e).getTotalLiquidoDaNota()).reduce(0.0, (x, y) -> x + y );
 	}
 
     public String executar() throws IOException, TemplateException, IllegalArgumentException, IllegalAccessException {
     	getNotasNegociacao();
-    	 	
+		exportarJson(notasNegociacao);
+		exportarCSV(notasNegociacao);
 		if(notasNegociacao == null || notasNegociacao.isEmpty()) {
 			 System.out.println(
 					 "Não foi possível extrair os campos da(s) nota(s) informada(s). \n"
@@ -114,13 +102,24 @@ public class Cliente {
 		} else {
 			ArrayList<NotaNegociacao> notas = NotaNegociacaoHelper.getNotas(notasNegociacao, NotaNegociacaoBMF.class);
 	    	if(!notas.isEmpty()) {
-	    		getAcumulado(NotaNegociacaoHelper.getNotas(notasNegociacao, NotaNegociacaoBMF.class));
 	    		gerarRelatorio(NotaNegociacaoHelper.getNotas(notasNegociacao, NotaNegociacaoBMF.class));
-	    		exportarJson(NotaNegociacaoHelper.getNotas(notasNegociacao, NotaNegociacaoBMF.class));
+	    		
 	    	}
 		} 
 		System.out.println(new Exporter().toCSV(notasNegociacao));
     	return "";
     }
+    
+	private void exportarJson(ArrayList<NotaNegociacao> notas) throws IllegalArgumentException, IllegalAccessException, IOException{
+		Writer fileWriter = new FileWriter(new File(OUTPUT_FOLDER + separator + "notasNegociacao-" + Instant.now().getEpochSecond() + ".json"));
+		fileWriter.append(new Exporter().toJson(notas));
+		fileWriter.close();
+	}
+	
+	private void exportarCSV(ArrayList<NotaNegociacao> notas) throws IllegalArgumentException, IllegalAccessException, IOException{
+		Writer fileWriter = new FileWriter(new File(OUTPUT_FOLDER + separator + "notasNegociacao-" + Instant.now().getEpochSecond() + ".csv"));
+		fileWriter.append(new Exporter().toCSV(notasNegociacao));
+		fileWriter.close();
+	}
 	
 }

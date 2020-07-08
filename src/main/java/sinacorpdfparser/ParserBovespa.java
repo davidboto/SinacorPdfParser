@@ -14,8 +14,8 @@ public class ParserBovespa implements Parser {
 	
 	public Parser find(String text) {
 		String [] documentLines = text.split("\r\n|\r|\n");
-		NotaNegociacaoBovespa notaBovespa = new NotaNegociacaoBovespa();
 		
+		NotaNegociacaoBovespa notaBovespa = new NotaNegociacaoBovespa();
 		for (int i = 0; i < documentLines.length; i++) {
 			if (documentLines[i].contains("Resumo dos Negócios")) {
 				notaBovespa.setDataPregao(documentLines[i-40]);
@@ -48,6 +48,7 @@ public class ParserBovespa implements Parser {
 				notaBovespa.setOutros(extract(tokenizeBov(documentLines[i-2])));
 				notaBovespa.setLiquido(extract(tokenizeBov(documentLines[i-1])));
 				notas.add(notaBovespa);
+				notaBovespa = new NotaNegociacaoBovespa();
 			}
 		}
 		return this;

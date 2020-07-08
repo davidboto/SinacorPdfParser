@@ -21,10 +21,15 @@ public class App {
 	public static void main(String[] args)
 			throws IOException, TemplateException, IllegalArgumentException, IllegalAccessException, ParseException {
 
+		CommandLineParser cmdLineParser = new DefaultParser();
+		HelpFormatter formatter = new HelpFormatter();
+		PrintWriter writer = new PrintWriter(System.out);
 		ClienteBuilder clienteBuilder = new ClienteBuilder();
-
+		CommandLine cmd;
+		
 		Options options = new Options();
-
+		
+		
 		options.addOption(Option.builder()
 				.longOpt("arquivo")
 				.argName("localizacao do arquivo .pdf")
@@ -39,36 +44,36 @@ public class App {
 				.desc("senha do arquivo, quando houver")
 				.build());
 
-		options.addOption("bovespa", false, "notas de corretagem de operacoes na bovespa").addOption("bmf", false,
-				"notas de corretagem de operacoes na bmf");
+		options.addOption("bovespa", false, "notas de corretagem de operacoes na bovespa")
+				.addOption("bmf", false, "notas de corretagem de operacoes na bmf");
 
-		CommandLineParser cmdLineParser = new DefaultParser();
-
-		CommandLine cmd = cmdLineParser.parse(options, args);
-
-		HelpFormatter formatter = new HelpFormatter();
-
-		final PrintWriter writer = new PrintWriter(System.out);
-
+		cmd = cmdLineParser.parse(options, args);
+		 
 		if (!cmd.hasOption("arquivo")) {
-
 			formatter.printUsage(writer, 80, "java -jar build/libs/SinacorPDFParser-all.jar", options);
 			writer.flush();
-
-		} else {
+			System.exit(0);
+		} 
+		
+		if(cmd.hasOption("arquivo")) {
 			clienteBuilder.setCaminho(cmd.getOptionValue("arquivo"));
-			if (cmd.hasOption("senha")) {
-				clienteBuilder.setSenha(cmd.getOptionValue("senha"));
-			}
+		}
+
+		if (cmd.hasOption("senha")) {
+			clienteBuilder.setSenha(cmd.getOptionValue("senha"));
 		}
 		
 		if (cmd.hasOption("bovespa")) {
 			clienteBuilder.setParser(new ParserBovespa());
 			System.out.println((clienteBuilder.build()).executar());
-		} else if (cmd.hasOption("bmf")) {
+		}
+		
+		if (cmd.hasOption("bmf")) {
 			clienteBuilder.setParser(new ParserBMF());
 			System.out.println((clienteBuilder.build()).executar());
-		} else {
+		}
+		
+		if (!cmd.hasOption("bovespa") && !cmd.hasOption("bovespa")) {
 			clienteBuilder.setParser(new ParserBovespa());
 			System.out.println((clienteBuilder.build()).executar());
 			clienteBuilder.setParser(new ParserBMF());
