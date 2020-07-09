@@ -15,14 +15,12 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
-import io.perfmark.PerfMark;
-import io.perfmark.traceviewer.TraceEventViewer;
 
 public class Cliente {
 	
 	private static Configuration config;
 	
-	private final String separator = File.separator;
+	private final static String separator = File.separator;
 	
 	private Template template;
 
@@ -40,9 +38,11 @@ public class Cliente {
 	
 	private final static String OUTPUT_FOLDER = "output";
 	
+	private final static String TEMPLATE_FREEMARKER = "report.ftl";
+	
 	static { 
 		config = new Configuration();
-		config.setClassForTemplateLoading(App.class, "/");
+		config.setClassForTemplateLoading(App.class, separator);
 		config.setDefaultEncoding("UTF-8");
 		config.setLocale(Locale.US);
 		config.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
@@ -63,7 +63,7 @@ public class Cliente {
 	}
 	
 	private void gerarRelatorio(ArrayList<NotaNegociacao> notas) throws IOException, TemplateException {
-		template = config.getTemplate("report.ftl");
+		template = config.getTemplate(TEMPLATE_FREEMARKER);
 		Map<String, Object> input = new HashMap<String, Object>();
 		getAcumulado(NotaNegociacaoHelper.getNotas(notasNegociacao, NotaNegociacaoBMF.class));
         input.put("notas", notas);
