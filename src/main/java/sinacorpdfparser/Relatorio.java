@@ -61,14 +61,14 @@ public class Relatorio {
 	}
 	
 	public Double getTotal(List<NotaNegociacao> notas) {
-		return notas.stream().map(e -> ((NotaNegociacaoBMF) e).getTotalLiquidoDaNota()).reduce(0.0, (x, y) -> x + y );
+		return notas.stream().map(e -> e.getTotal()).reduce(0.0, (x, y) -> x + y );
 	}
 
 	private Double [] getAcumulado(ArrayList<NotaNegociacao> notas) {
 		Double [] acumulado = new Double[notas.size()]; 
-		acumulado[0] = ((NotaNegociacaoBMF) notas.get(0)).getTotalLiquidoDaNota();
+		acumulado[0] = notas.get(0).getTotal();
 		for(int i = 1; i < notas.size(); i++)
-			acumulado[i] = acumulado[i-1] + ((NotaNegociacaoBMF) notas.get(i)).getTotalLiquidoDaNota();
+			acumulado[i] = acumulado[i-1] + notas.get(i).getTotal();
 		return acumulado;
 	}
 	

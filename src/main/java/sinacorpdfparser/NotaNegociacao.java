@@ -2,7 +2,7 @@ package sinacorpdfparser;
 
 import java.util.EnumSet;
 
-public abstract class NotaNegociacao {
+public abstract class NotaNegociacao implements Operacoes {
 	
     public enum Tipos {
         BOVESPA,

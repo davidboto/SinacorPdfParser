@@ -272,4 +272,9 @@ public class NotaNegociacaoBovespa extends NotaNegociacao {
 		}
 		return objectContent.toString();
 	}
+
+	@Override
+	public Double getTotal() {
+		return liquido;
+	}
 }

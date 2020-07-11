@@ -230,4 +230,9 @@ public class NotaNegociacaoBMF extends NotaNegociacao {
 		return objectContent.toString();
 	}
 
+	@Override
+	public Double getTotal() {
+		return TotalLiquidoDaNota;
+	}
+
 }
