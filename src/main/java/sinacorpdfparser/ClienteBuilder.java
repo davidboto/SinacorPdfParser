@@ -1,5 +1,7 @@
 package sinacorpdfparser;
 
+import java.util.List;
+
 public final class ClienteBuilder {
 	
 	private Parser parser;
@@ -7,6 +9,8 @@ public final class ClienteBuilder {
 	private String caminho;
 	
 	private String senha;
+	
+	private List<Mercado> exportarPara;
 	
 	public Parser getParser() {
 		return parser;
@@ -34,9 +38,10 @@ public final class ClienteBuilder {
 		this.senha = senha;
 		return this;
 	}
-
+	
+	
 	public Cliente build() {
-		Cliente cliente = new Cliente(caminho, senha, parser);
+		Cliente cliente = new Cliente(caminho, senha, parser, null);
 		return cliente;
 	}
 

@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.io.Writer;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.List;
 
-import freemarker.template.TemplateException;
 
 public class Cliente {
 	
@@ -17,6 +17,8 @@ public class Cliente {
 	
 	private ArrayList<NotaNegociacao> notasNegociacao;
 	
+	private List<Mercado> exportarPara;
+	
 	private Parser parser;
 	
 	private String caminho;
@@ -25,10 +27,11 @@ public class Cliente {
 
 	private final static String OUTPUT_FOLDER = "output";
 	
-	Cliente(String caminho, String senha, Parser parser){
+	Cliente(String caminho, String senha, Parser parser, List<Mercado> exportarPara){
 		this.caminho = caminho;
 		this.senha = senha;
 		this.parser = parser;
+		this.exportarPara = exportarPara;
 	}
 	
 	private ArrayList<NotaNegociacao> getNotasNegociacao() throws IOException {

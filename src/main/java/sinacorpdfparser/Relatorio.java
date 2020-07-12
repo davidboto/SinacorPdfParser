@@ -25,7 +25,9 @@ public class Relatorio {
 	private Template template;
 	
 	private String outputFolder;
-
+	
+	private final static String TEMPLATE_FREEMARKER = "report.ftl";
+	
 	static { 
 		config = new Configuration();
 		config.setClassForTemplateLoading(App.class, separator);
@@ -33,8 +35,6 @@ public class Relatorio {
 		config.setLocale(Locale.US);
 		config.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
 	}
-	
-	private final static String TEMPLATE_FREEMARKER = "report.ftl";
 	
 	public Relatorio(String outputFolder) {
 		this.outputFolder = outputFolder;
