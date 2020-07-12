@@ -13,6 +13,7 @@ import org.apache.commons.cli.ParseException;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import freemarker.template.TemplateException;
 
@@ -25,6 +26,7 @@ public class App {
 		HelpFormatter formatter = new HelpFormatter();
 		PrintWriter writer = new PrintWriter(System.out);
 		ClienteBuilder clienteBuilder = new ClienteBuilder();
+		ArrayList<OpcaoExportacao> opcoesExportacao= new ArrayList<OpcaoExportacao> ();
 		CommandLine cmd;
 		
 		Options options = new Options();
@@ -45,7 +47,9 @@ public class App {
 				.build());
 
 		options.addOption("bovespa", false, "notas de corretagem de operacoes na bovespa")
-				.addOption("bmf", false, "notas de corretagem de operacoes na bmf");
+				.addOption("bmf", false, "notas de corretagem de operacoes na bmf")
+				.addOption("json", false, "exportar para o formato .json")
+				.addOption("csv", false, "exportar para o formato .csv");
 
 		cmd = cmdLineParser.parse(options, args);
 		 
@@ -62,6 +66,16 @@ public class App {
 		if (cmd.hasOption("senha")) {
 			clienteBuilder.setSenha(cmd.getOptionValue("senha"));
 		}
+	
+		if (cmd.hasOption("json")) {
+			opcoesExportacao.add(OpcaoExportacao.JSON);
+			clienteBuilder.setOpcaoExportacao(opcoesExportacao);
+		}
+		
+		if (cmd.hasOption("csv")) {
+			opcoesExportacao.add(OpcaoExportacao.CSV);
+			clienteBuilder.setOpcaoExportacao(opcoesExportacao);;
+		}
 		
 		if (cmd.hasOption("bovespa")) {
 			clienteBuilder.setParser(new ParserBovespa());
@@ -72,13 +86,13 @@ public class App {
 			clienteBuilder.setParser(new ParserBMF());
 			System.out.println((clienteBuilder.build()).executar());
 		}
-		
+			
 		if (!cmd.hasOption("bovespa") && !cmd.hasOption("bovespa")) {
 			clienteBuilder.setParser(new ParserBovespa());
 			System.out.println((clienteBuilder.build()).executar());
 			clienteBuilder.setParser(new ParserBMF());
 			System.out.println((clienteBuilder.build()).executar());
 		}
-		
+			
 	}
 }

@@ -17,7 +17,7 @@ public class Cliente {
 	
 	private ArrayList<NotaNegociacao> notasNegociacao;
 	
-	private List<Mercado> exportarPara;
+	private List<OpcaoExportacao> opcoesExportacao;
 	
 	private Parser parser;
 	
@@ -27,11 +27,11 @@ public class Cliente {
 
 	private final static String OUTPUT_FOLDER = "output";
 	
-	Cliente(String caminho, String senha, Parser parser, List<Mercado> exportarPara){
+	Cliente(String caminho, String senha, Parser parser, List<OpcaoExportacao> opcoesExportacao){
 		this.caminho = caminho;
 		this.senha = senha;
 		this.parser = parser;
-		this.exportarPara = exportarPara;
+		this.opcoesExportacao = opcoesExportacao;
 	}
 	
 	private ArrayList<NotaNegociacao> getNotasNegociacao() throws IOException {
@@ -44,8 +44,16 @@ public class Cliente {
 	
     public String executar() throws IOException, IllegalArgumentException, IllegalAccessException {
     	getNotasNegociacao();
-		exportarJson(notasNegociacao);
-		exportarCSV(notasNegociacao);
+    	
+    	if(opcoesExportacao == null) {
+    		exportarJson(notasNegociacao);
+    		exportarCSV(notasNegociacao);
+    	} else if (opcoesExportacao.contains(OpcaoExportacao.JSON)) {
+    		exportarJson(notasNegociacao);
+    	} else if(opcoesExportacao.contains(OpcaoExportacao.CSV) ) {
+    		exportarCSV(notasNegociacao);
+    	}
+    	
 		if(notasNegociacao == null || notasNegociacao.isEmpty()) {
 			 System.out.println(
 					 "Não foi possível extrair os campos da(s) nota(s) informada(s). \n"

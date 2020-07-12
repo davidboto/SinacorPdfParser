@@ -10,7 +10,7 @@ public final class ClienteBuilder {
 	
 	private String senha;
 	
-	private List<Mercado> exportarPara;
+	private List<OpcaoExportacao> opcoesExportacao;
 	
 	public Parser getParser() {
 		return parser;
@@ -39,9 +39,19 @@ public final class ClienteBuilder {
 		return this;
 	}
 	
+	public List<OpcaoExportacao> getOpcaoExportacao() {
+		return opcoesExportacao;
+	}
+
+	public ClienteBuilder setOpcaoExportacao(List<OpcaoExportacao> opcoesExportacao) {
+		this.opcoesExportacao = opcoesExportacao;
+		return this;
+	}
+	
+		
 	
 	public Cliente build() {
-		Cliente cliente = new Cliente(caminho, senha, parser, null);
+		Cliente cliente = new Cliente(caminho, senha, parser, opcoesExportacao);
 		return cliente;
 	}
 
