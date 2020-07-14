@@ -26,7 +26,7 @@ public class Exporter {
 		for(NotaNegociacao nota : notas) {
 			if(nota.getClass().getDeclaredFields().length != qtdCampos) {
 				qtdCampos = nota.getClass().getDeclaredFields().length;
-				content.append(getHeader(nota));
+				content.append(getCSVHeader(nota));
 			}
 			content.append(nota.toCSV());
 			content.append("\n");
@@ -35,7 +35,7 @@ public class Exporter {
 		return content.toString();
 	}
 	
-	public String getHeader(NotaNegociacao nota) {
+	public String getCSVHeader(NotaNegociacao nota) {
 		StringBuilder header = new StringBuilder();
 		Field[] fields = nota.getClass().getDeclaredFields();
 		String prefix = "";

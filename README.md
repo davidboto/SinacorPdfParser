@@ -28,6 +28,10 @@ java -jar build/libs/SinacorPDFParser-all.jar --arquivo <arquivo>
 java -jar build/libs/SinacorPDFParser-all.jar --arquivo <arquivo> --senha <senha>
 ```
 
+4. Outros parâmetros
+
+-json ou -csv para salvar as informações em arquivo .json ou .csv, respectivamente.
+
 ## Resultado
 
 Os arquivos gerados após a execução podem ser encontrados em:
@@ -37,8 +41,8 @@ output/
 
 ### TODO
 
-- [ ] saída em outros formatos (json, csv, xml, ...)
-- [x] plotar grafico com so resultados
+- [ ] Saída em .XML
+- [x] Plotar grafico em relatório
 - [ ] operações como sum(), avg(), cumulative_sum()
 - [ ] permitir que mais de um arquivo seja lido por vez (e.g., informando caminho para diretório ao invés de somente um único arquivo)
 - [ ] exibir demais campos da nota de negociação no relatório geral.

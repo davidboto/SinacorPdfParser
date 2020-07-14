@@ -48,8 +48,6 @@ public final class ClienteBuilder {
 		return this;
 	}
 	
-		
-	
 	public Cliente build() {
 		Cliente cliente = new Cliente(caminho, senha, parser, opcoesExportacao);
 		return cliente;
