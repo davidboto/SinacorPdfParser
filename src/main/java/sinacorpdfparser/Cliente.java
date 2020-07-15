@@ -24,6 +24,8 @@ public class Cliente {
 	private String caminho;
 	
 	private String senha;
+	
+	private long timestampArquivo;
 
 	private final static String OUTPUT_FOLDER = "output";
 	
@@ -32,6 +34,7 @@ public class Cliente {
 		this.senha = senha;
 		this.parser = parser;
 		this.opcoesExportacao = opcoesExportacao;
+		this.timestampArquivo = Instant.now().getEpochSecond();
 	}
 	
 	private ArrayList<NotaNegociacao> getNotasNegociacao() throws IOException {
@@ -66,18 +69,25 @@ public class Cliente {
 	    		
 	    	}
 		} 
-		System.out.println(new Exporter().toCSV(notasNegociacao));
+		System.out.println("Total de nota(s) encontradas: " + notasNegociacao.size() );
+		System.out.println("Arquivos gerados: ");
+		if (opcoesExportacao.contains(OpcaoExportacao.JSON)){
+			System.out.println(OUTPUT_FOLDER + separator + "notasNegociacao-" + timestampArquivo + ".json");
+		}
+		if (opcoesExportacao.contains(OpcaoExportacao.CSV)){
+			System.out.println(OUTPUT_FOLDER + separator + "notasNegociacao-" + timestampArquivo + ".json");
+		}
     	return "";
     }
     
 	private void exportarJson(ArrayList<NotaNegociacao> notas) throws IllegalArgumentException, IllegalAccessException, IOException{
-		Writer fileWriter = new FileWriter(new File(OUTPUT_FOLDER + separator + "notasNegociacao-" + Instant.now().getEpochSecond() + ".json"));
+		Writer fileWriter = new FileWriter(new File(OUTPUT_FOLDER + separator + "notasNegociacao-" + timestampArquivo + ".json"));
 		fileWriter.append(new Exporter().toJson(notas));
 		fileWriter.close();
 	}
 	
 	private void exportarCSV(ArrayList<NotaNegociacao> notas) throws IllegalArgumentException, IllegalAccessException, IOException{
-		Writer fileWriter = new FileWriter(new File(OUTPUT_FOLDER + separator + "notasNegociacao-" + Instant.now().getEpochSecond() + ".csv"));
+		Writer fileWriter = new FileWriter(new File(OUTPUT_FOLDER + separator + "notasNegociacao-" + timestampArquivo + ".csv"));
 		fileWriter.append(new Exporter().toCSV(notasNegociacao));
 		fileWriter.close();
 	}
