@@ -43,7 +43,7 @@ output/
 
 - [ ] Saída em .XML
 - [x] Plotar grafico em relatório
-- [ ] operações como sum(), avg(), cumulative_sum()
+- [x] operações como sum(), avg(), cumulative_sum()
 - [ ] permitir que mais de um arquivo seja lido por vez (e.g., informando caminho para diretório ao invés de somente um único arquivo)
 - [ ] exibir demais campos da nota de negociação no relatório geral.
 - [x] nota de corretagem de operações na Bovespa
