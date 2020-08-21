@@ -31,7 +31,6 @@ public class App {
 		
 		Options options = new Options();
 		
-		
 		options.addOption(Option.builder()
 				.longOpt("arquivo")
 				.argName("localizacao do arquivo .pdf")
@@ -39,6 +38,13 @@ public class App {
 				.desc("caminho do arquivo .pdf")
 				.build());
 
+		options.addOption(Option.builder()
+				.longOpt("diretorio")
+				.argName("diretório com as notas em pdf")
+				.hasArg()
+				.desc("diretório com as notas de negociação")
+				.build());
+		
 		options.addOption(Option.builder()
 				.longOpt("senha")
 				.argName("senha do arquivo")
@@ -53,7 +59,7 @@ public class App {
 
 		cmd = cmdLineParser.parse(options, args);
 		 
-		if (!cmd.hasOption("arquivo")) {
+		if (!cmd.hasOption("arquivo") && !cmd.hasOption("diretorio")) {
 			formatter.printUsage(writer, 80, "java -jar build/libs/SinacorPDFParser-all.jar", options);
 			writer.flush();
 			System.exit(0);
@@ -61,8 +67,14 @@ public class App {
 		
 		if(cmd.hasOption("arquivo")) {
 			clienteBuilder.setCaminho(cmd.getOptionValue("arquivo"));
+			clienteBuilder.setFonteArquivo(true);
 		}
 
+		if(cmd.hasOption("diretorio")) {
+			clienteBuilder.setCaminho(cmd.getOptionValue("diretorio"));
+			clienteBuilder.setFonteDiretorio(true);
+		}
+		
 		if (cmd.hasOption("senha")) {
 			clienteBuilder.setSenha(cmd.getOptionValue("senha"));
 		}
@@ -79,18 +91,22 @@ public class App {
 		
 		if (cmd.hasOption("bovespa")) {
 			clienteBuilder.setParser(new ParserBovespa());
+			clienteBuilder.setTipo(NotaNegociacao.Tipos.BOVESPA);
 			System.out.println((clienteBuilder.build()).executar());
 		}
 		
 		if (cmd.hasOption("bmf")) {
 			clienteBuilder.setParser(new ParserBMF());
+			clienteBuilder.setTipo(NotaNegociacao.Tipos.BMF);
 			System.out.println((clienteBuilder.build()).executar());
 		}
 			
 		if (!cmd.hasOption("bovespa") && !cmd.hasOption("bovespa")) {
 			clienteBuilder.setParser(new ParserBovespa());
+			clienteBuilder.setTipo(NotaNegociacao.Tipos.BOVESPA);
 			System.out.println((clienteBuilder.build()).executar());
 			clienteBuilder.setParser(new ParserBMF());
+			clienteBuilder.setTipo(NotaNegociacao.Tipos.BMF);
 			System.out.println((clienteBuilder.build()).executar());
 		}
 			

@@ -15,6 +15,8 @@ public class ParserBovespa implements Parser {
 	public Parser find(String text) {
 		String [] documentLines = text.split("\r\n|\r|\n");
 		
+		notas = new ArrayList<NotaNegociacao>();
+		
 		NotaNegociacaoBovespa notaBovespa = new NotaNegociacaoBovespa();
 		for (int i = 0; i < documentLines.length; i++) {
 			if (documentLines[i].contains("Resumo dos Negócios")) {

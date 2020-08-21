@@ -14,6 +14,8 @@ public class ParserBMF implements Parser {
 	public Parser find(String text) {
 		String[] documentLines = text.split("\r\n|\r|\n");
 		
+		notas = new ArrayList<NotaNegociacao>();
+		
 		NotaNegociacaoBMF nota = new NotaNegociacaoBMF();
 		for (int i = 0; i < documentLines.length; i++) {
 

@@ -4,6 +4,8 @@ import java.util.EnumSet;
 
 public abstract class NotaNegociacao implements Operacoes {
 	
+	private String DataPregao;
+	
     public enum Tipos {
         BOVESPA,
         BMF;
@@ -12,5 +14,12 @@ public abstract class NotaNegociacao implements Operacoes {
 	
 	protected abstract String toCSV();
 
+	public String getDataPregao() {
+		return DataPregao;
+	}
+
+	public void setDataPregao(String dataPregao) {
+		DataPregao = dataPregao;
+	}
 	
 }

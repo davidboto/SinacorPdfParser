@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 
 public class NotaNegociacaoBovespa extends NotaNegociacao {
 	
-	private String DataPregao;
+//	private String DataPregao;
 	private String NrNotaNegociacao;
 	private Double debentures;
 	private Double vendasAVista;
@@ -31,32 +31,13 @@ public class NotaNegociacaoBovespa extends NotaNegociacao {
 	private Double outros;
 	private Double liquido;
 	
-//	2.134,00Total CBLC D
-//	2.133,00Valor líquido das operações D
-//	1,00Taxa de liquidação D
-//	0,00Taxa de Registro D
-//	0,13Total Bovespa / Soma D
-//	0,00Taxa de termo/opções D
-//	0,00Taxa A.N.A. D
-//	0,13Emolumentos D
-//	 
-//	0,00Total Custos / Despesas D
-//	 
-//	0,00Taxa Operacional D
-//	0,00Execução
-//	0,00Taxa de Custódia
-//	0,00Impostos
-//	0,00I.R.R.F. s/ operações, base R$0,00
-//	0,00Outros C
-//	2.134,13Líquido para 23/03/2020 D
-	
-	public String getDataPregao() {
-		return DataPregao;
-	}
-
-	public void setDataPregao(String dataPregao) {
-		DataPregao = dataPregao;
-	}
+//	public String getDataPregao() {
+//		return DataPregao;
+//	}
+//
+//	public void setDataPregao(String dataPregao) {
+//		DataPregao = dataPregao;
+//	}
 
 	public String getNrNotaNegociacao() {
 		return NrNotaNegociacao;
