@@ -4,7 +4,6 @@ import java.lang.reflect.Field;
 
 public class NotaNegociacaoBovespa extends NotaNegociacao {
 	
-//	private String DataPregao;
 	private String NrNotaNegociacao;
 	private Double debentures;
 	private Double vendasAVista;
@@ -31,14 +30,6 @@ public class NotaNegociacaoBovespa extends NotaNegociacao {
 	private Double outros;
 	private Double liquido;
 	
-//	public String getDataPregao() {
-//		return DataPregao;
-//	}
-//
-//	public void setDataPregao(String dataPregao) {
-//		DataPregao = dataPregao;
-//	}
-
 	public String getNrNotaNegociacao() {
 		return NrNotaNegociacao;
 	}

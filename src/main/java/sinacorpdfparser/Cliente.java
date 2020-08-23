@@ -86,25 +86,23 @@ public class Cliente {
 			notasNegociacao.addAll(parser.getNotas());
 		}
 		
-		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-		
-		Collections.sort(notasNegociacao, 
-				(n1, n2) -> 
-				{
-					try {
-						return formatter.parse(n1.getDataPregao()).compareTo(
-								formatter.parse(n2.getDataPregao()));
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					return 0;
-				});
-		
-		
+		Collections.sort(notasNegociacao, (n1, n2) -> orderByData(n1, n2));
+
 		return notasNegociacao;
 	}
 	
+	public static int orderByData(NotaNegociacao n1, NotaNegociacao n2) {
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		
+		try {
+			return formatter.parse(n1.getDataPregao()).compareTo(
+					formatter.parse(n2.getDataPregao()));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
 
     public String executar() throws IOException, IllegalArgumentException, IllegalAccessException {
     	getNotasNegociacao();
