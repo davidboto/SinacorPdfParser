@@ -60,14 +60,14 @@ public class Cliente {
 	private ArrayList<NotaNegociacao> getNotasNegociacao() throws IOException {
 		notasNegociacao = new ArrayList<NotaNegociacao>();
 		if(fonteDiretorio) { 
-			Stream<Path> walk = Files.walk(
-					Paths.get(caminho), 
-					FileVisitOption.FOLLOW_LINKS);
-			
+			Stream<Path> walk = Files.walk(Paths.get(caminho),FileVisitOption.FOLLOW_LINKS);
+
 			List<String> result = walk.map(
 					x -> x.toString())
 					.filter(f -> f.endsWith(".pdf")).collect(Collectors.toList());
 
+			walk.close();
+			
 			result.forEach((filePath) -> {
 				try {
 					pdf2Text = new PDFToText(filePath, senha);
@@ -145,13 +145,13 @@ public class Cliente {
     
 	private void exportarJson(ArrayList<NotaNegociacao> notas) throws IllegalArgumentException, IllegalAccessException, IOException{
 		Writer fileWriter = new FileWriter(new File(OUTPUT_FOLDER + separator + "notasNegociacao-" + tipo.toString() + "-" + timestampArquivo + ".json"));
-		fileWriter.append(new Exporter().toJson(notas));
+		fileWriter.append(JsonExporter.export(notas));
 		fileWriter.close();
 	}
 	
 	private void exportarCSV(ArrayList<NotaNegociacao> notas) throws IllegalArgumentException, IllegalAccessException, IOException{
 		Writer fileWriter = new FileWriter(new File(OUTPUT_FOLDER + separator + "notasNegociacao-" + tipo.toString() + "-" + timestampArquivo + ".csv"));
-		fileWriter.append(new Exporter().toCSV(notasNegociacao));
+		fileWriter.append(CsvExporter.export(notasNegociacao));
 		fileWriter.close();
 	}
 	
