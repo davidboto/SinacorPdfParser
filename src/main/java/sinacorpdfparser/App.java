@@ -101,7 +101,7 @@ public class App {
 			System.out.println((clienteBuilder.build()).executar());
 		}
 			
-		if (!cmd.hasOption("bovespa") && !cmd.hasOption("bovespa")) {
+		if (!cmd.hasOption("bovespa") && !cmd.hasOption("bmf")) {
 			clienteBuilder.setParser(new ParserBovespa());
 			clienteBuilder.setTipo(NotaNegociacao.Tipos.BOVESPA);
 			System.out.println((clienteBuilder.build()).executar());
