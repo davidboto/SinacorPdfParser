@@ -4,12 +4,17 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -41,9 +46,24 @@ public class Relatorio {
 	}
 	
 	public void gerarRelatorio(ArrayList<NotaNegociacao> notas) throws IOException {
+		
+		DateTimeFormatter fIn = DateTimeFormatter.ofPattern( "dd/MM/uuuu" ); 
+		DateTimeFormatter fOut = DateTimeFormatter.ofPattern( "uuuu-MM-dd" );
+		
+		List<NotaNegociacao> notasFormatacaoData = (List<NotaNegociacao>) notas.clone();
+		
+		notasFormatacaoData.forEach(e -> {
+			LocalDate ld = LocalDate.parse( e.getDataPregao(), fIn);
+			e.setDataPregao(ld.format(fOut));
+		});
+		
+		
 		template = config.getTemplate(TEMPLATE_FREEMARKER);
 		Map<String, Object> input = new HashMap<String, Object>();
         input.put("notas", notas);
+        input.put("notasFormatacaoData", notasFormatacaoData);
+        input.put("inicioPeriodo", notasFormatacaoData.get(0).getDataPregao());
+        input.put("fimPeriodo", notasFormatacaoData.get(notasFormatacaoData.size()-1).getDataPregao());
         input.put("sum", getAcumulado(notas));
         input.put("retorno", getTotal(notas));
         input.put("diahora", Instant.now());
