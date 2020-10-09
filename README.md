@@ -39,6 +39,19 @@ Os arquivos gerados após a execução podem ser encontrados em:
 output/
 ```
 
+<h3 align="center">
+  <a href="https://github.com/davidboto/SinacorPdfParser/blob/master/.assets/img01_report.jpg?raw=true">
+  <img src="https://github.com/davidboto/SinacorPdfParser/blob/master/.assets/img01_report.jpg?raw=true" alt="fastlane Logo" width="800">
+  </a>
+</h3>
+
+<h3 align="center">
+  <a href="https://github.com/davidboto/SinacorPdfParser/blob/master/.assets/img02_report.jpg?raw=true">
+  <img src="https://github.com/davidboto/SinacorPdfParser/blob/master/.assets/img02_report.jpg?raw=true" alt="fastlane Logo" width="800">
+  </a>
+</h3>
+
+
 ### TODO
 
 - [ ] Saída em .XML
