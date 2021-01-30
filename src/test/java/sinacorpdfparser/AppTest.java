@@ -56,14 +56,4 @@ public class AppTest {
     	assert(listaDeNotas.size() == 6); 
     }
     
-    @Test public void regExpressionBov() {
-    	String linhaExemplo = " 61,43Total CBLC D ";
-        Pattern pattern = Pattern.compile("\\d+([\\.\\,]\\d+)+");
-        Matcher matcher = pattern.matcher(linhaExemplo);
-	
-        String a = matcher.group();
-        System.out.println(a);
-        assert(a.equals("61,43"));
-    }
-    
 }
