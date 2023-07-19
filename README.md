@@ -28,6 +28,12 @@ java -jar build/libs/SinacorPDFParser-all.jar --arquivo <arquivo>
 java -jar build/libs/SinacorPDFParser-all.jar --arquivo <arquivo> --senha <senha>
 ```
 
+3.2 Executar contra um diretório (arquivos protegido com senha):
+```shell
+java -jar build/libs/SinacorPDFParser-all.jar --arquivo <arquivo> --senha <senha>
+```
+* Assume que todos os arquivos são protegidos com a mesma casa.
+
 4. Outros parâmetros
 
 -json ou -csv para salvar as informações em arquivo .json ou .csv, respectivamente.
