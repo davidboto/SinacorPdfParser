@@ -15,7 +15,7 @@ git clone git@github.com:davidboto/SinacorPDFParser.git
 
 2. Build:
 ```shell
-gradle shadowJar
+./gradlew shadowJar
 ```
 
 3. Executar:
@@ -30,7 +30,12 @@ java -jar build/libs/SinacorPDFParser-all.jar --arquivo <arquivo> --senha <senha
 
 3.2 Executar contra um diretório (arquivos protegido com senha):
 ```shell
-java -jar build/libs/SinacorPDFParser-all.jar --arquivo <arquivo> --senha <senha>
+java -jar build/libs/SinacorPDFParser-all.jar --diretorio <caminho_diretorio> 
+```
+
+3.2 Executar contra um diretório (arquivos protegido com senha):
+```shell
+java -jar build/libs/SinacorPDFParser-all.jar --diretorio <caminho_diretorio> --senha <senha>
 ```
 * Assume que todos os arquivos são protegidos com a mesma casa.
 
